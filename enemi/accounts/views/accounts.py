@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.views.generic import CreateView
 
 from accounts.forms import TutorCreationForm, AccountForm, StudyCenterCreationForm
-from accounts.models import Account, Student, Tutor, StudyCenter
+from accounts.models import Account, Tutor, StudyCenter
 
 
 class AccountCreateView(CreateView):
