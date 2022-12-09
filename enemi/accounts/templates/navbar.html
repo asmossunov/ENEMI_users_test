@@ -1,0 +1,43 @@
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="/"><img id="panelpic" src="{% static 'images/logo.png' %}" alt="logo on nav-bar " style="width:53px; height:30px;margin-top:5px;margin-left:26px;border-right:1px solid;padding-right: 23px; "></a>
+
+
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li><a class="dropdown-item" href="#">Тип:{{ request.user.type }}</a></li>
+          <li><a class="dropdown-item" href="#">Имя:{{ request.user.username }}</a></li>
+
+
+
+        <div class="col-2" style="padding-left: 500px; padding-top: 50px">
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                Регистрация
+              </button>
+              <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+
+                <li><a class="dropdown-item" href="{% url 'account_register' %}">Как студент</a></li>
+
+                <li><a class="dropdown-item" href="{% url 'tutor_register' %}">Как репетитор</a></li>
+
+                <li><a class="dropdown-item" href="{% url 'study_center_register' %}">Как уч. центр</a></li>
+
+              </ul>
+           </div>
+        </div>
+
+        </ul>
+      </div>
+    </nav>
+</div>
+
+
+{% endblock %}
+
