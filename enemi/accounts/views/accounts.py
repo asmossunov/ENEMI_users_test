@@ -6,6 +6,8 @@ from django.views.generic import CreateView
 from accounts.forms import TutorCreationForm, AccountForm, StudyCenterCreationForm
 from accounts.models import Account, Tutor, StudyCenter
 
+from accounts.models.accounts import UserCategoryChoices
+
 
 class AccountCreateView(CreateView):
     template_name = 'account_register.html'
@@ -16,37 +18,48 @@ class AccountCreateView(CreateView):
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             account = form.save()
-            account.type = 'student'
+            print(kwargs)
+            account.type = kwargs['type']
             account.save()
             login(request, account)
+            if account.type == 'tutor':
+                return redirect('tutor_module_register', pk=account.pk)
+            if account.type == 'study_center':
+                return redirect('study_center_module_register', pk=account.pk)
             return redirect('index')
         context = {}
         context['form'] = form
         return self.render_to_response(context)
 
-    def get_success_url(self, request):
-        return reverse('index')
-
-
-class AccountTutorCreateView(CreateView):
-    template_name = 'account_tutor_register.html'
-    model = Account
-    form_class = AccountForm
-
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST, request.FILES)
-        if form.is_valid():
-            account = form.save()
-            account.type = 'tutor'
-            account.save()
-            login(request, account)
-            return redirect('tutor_module_register', pk=account.pk)
-        context = {}
-        context['form'] = form
-        return self.render_to_response(context)
+    def get_context_data(self, **kwargs):
+        context = super(AccountCreateView, self).get_context_data(**kwargs)
+        print(self.kwargs)
+        context['type'] = self.kwargs['type']
+        return context
 
     def get_success_url(self, request):
         return reverse('index')
+
+
+# class AccountTutorCreateView(CreateView):
+#     template_name = 'account_tutor_register.html'
+#     model = Account
+#     form_class = AccountForm
+#
+#     def post(self, request, *args, **kwargs):
+#         form = self.form_class(request.POST, request.FILES)
+#         if form.is_valid():
+#             account = form.save()
+#             account.type = 'tutor'
+#             account.save()
+#             login(request, account)
+#             return redirect('tutor_module_register', pk=account.pk)
+#         context = {}
+#         context['form'] = form
+#         return self.render_to_response(context)
+#
+#     def get_success_url(self, request):
+#         return reverse('index')
 
 
 class TutorCreateView(CreateView):
@@ -81,25 +94,25 @@ class TutorCreateView(CreateView):
         return reverse('index')
 
 
-class AccountStudyCenterCreateView(CreateView):
-    template_name = 'account_study_center_register.html'
-    model = Account
-    form_class = AccountForm
-
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST, request.FILES)
-        if form.is_valid():
-            account = form.save()
-            account.type = 'study_center'
-            account.save()
-            login(request, account)
-            return redirect('study_center_module_register', pk=account.pk)
-        context = {}
-        context['form'] = form
-        return self.render_to_response(context)
-
-    def get_success_url(self, request):
-        return reverse('index')
+# class AccountStudyCenterCreateView(CreateView):
+#     template_name = 'account_study_center_register.html'
+#     model = Account
+#     form_class = AccountForm
+#
+#     def post(self, request, *args, **kwargs):
+#         form = self.form_class(request.POST, request.FILES)
+#         if form.is_valid():
+#             account = form.save()
+#             account.type = 'study_center'
+#             account.save()
+#             login(request, account)
+#             return redirect('study_center_module_register', pk=account.pk)
+#         context = {}
+#         context['form'] = form
+#         return self.render_to_response(context)
+#
+#     def get_success_url(self, request):
+#         return reverse('index')
 
 
 class StudyCenterCreateView(CreateView):

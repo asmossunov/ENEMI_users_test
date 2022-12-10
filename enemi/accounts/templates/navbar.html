@@ -22,12 +22,9 @@
                 Регистрация
               </button>
               <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-
-                <li><a class="dropdown-item" href="{% url 'account_register' %}">Как студент</a></li>
-
-                <li><a class="dropdown-item" href="{% url 'tutor_register' %}">Как репетитор</a></li>
-
-                <li><a class="dropdown-item" href="{% url 'study_center_register' %}">Как уч. центр</a></li>
+                {% for type in types %}
+                <li><a class="dropdown-item" href="{% url 'account_register' type.0 %}">{{ type.1 }}</a></li>
+                {% endfor %}
 
               </ul>
            </div>
